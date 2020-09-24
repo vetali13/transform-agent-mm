@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>agent-maven</groupId>
+    <artifactId>transform-agent-mm</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>transform-code-application</artifactId>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>agent-maven</groupId>
+    	<artifactId>transform-code-agent</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  
+  <build>
+  	<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Main-Class>main.Application</Main-Class>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>
+                            -javaagent:${project.parent.basedir}/transform-code-agent/target/transform-code-agent-0.0.1-SNAPSHOT.jar
+                        </argument>
+                        <argument>-classpath</argument>
+                        <classpath/>
+                        <argument>main.Application</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+  
+  </build>
+  
+</project>
